@@ -1,0 +1,103 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-1">
+        <createTable tableName="Account">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="AccountPK"/>
+            </column>
+            <column name="account_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accountName" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createdAt" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-2">
+        <createTable tableName="general_ledger_entry">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="general_ledger_entryPK"/>
+            </column>
+            <column name="credit" type="numeric(38, 2)"/>
+            <column name="debit" type="numeric(38, 2)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="entryDate" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="runningBalance" type="numeric(38, 2)"/>
+            <column name="account_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="journal_entry_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-3">
+        <createTable tableName="journal_entries">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="journal_entriesPK"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entryDate" type="TIMESTAMP(6) WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entryNumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postedAt" type="TIMESTAMP(6) WITHOUT TIME ZONE"/>
+            <column name="referenceNumber" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-4">
+        <createTable tableName="journal_lines">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="journal_linesPK"/>
+            </column>
+            <column name="credit" type="numeric(38, 2)"/>
+            <column name="debit" type="numeric(38, 2)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="transactionId" type="BIGINT"/>
+            <column name="account_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="journal_entry_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-5">
+        <addUniqueConstraint columnNames="account_code" constraintName="UC_ACCOUNTACCOUNT_CODE_COL" tableName="Account"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-6">
+        <addUniqueConstraint columnNames="entryNumber" constraintName="UC_JOURNAL_ENTRIESENTRYNUMBER_COL" tableName="journal_entries"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-7">
+        <addForeignKeyConstraint baseColumnNames="journal_entry_id" baseTableName="general_ledger_entry" constraintName="FK19ux1lm59jp136dhg9de08lmd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="journal_entries" validate="true"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-8">
+        <addForeignKeyConstraint baseColumnNames="journal_entry_id" baseTableName="journal_lines" constraintName="FK1mucajfkxo6i8ldmy61xsaf85" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="journal_entries" validate="true"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-9">
+        <addForeignKeyConstraint baseColumnNames="account_code" baseTableName="journal_lines" constraintName="FKac2il0hbkoi7aox378g3ouscj" deferrable="false" initiallyDeferred="false" referencedColumnNames="account_code" referencedTableName="Account" validate="true"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764061568467-10">
+        <addForeignKeyConstraint baseColumnNames="account_code" baseTableName="general_ledger_entry" constraintName="FKrlnua1io8fjxbat3htgnwc3ls" deferrable="false" initiallyDeferred="false" referencedColumnNames="account_code" referencedTableName="Account" validate="true"/>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764062192259-1">
+        <addColumn tableName="Account">
+            <column name="name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="JeyakumarMurugan (generated)" id="1764062412101-1">
+        <dropColumn columnName="name" tableName="Account"/>
+    </changeSet>
+</databaseChangeLog>
